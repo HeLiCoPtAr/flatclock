@@ -1,0 +1,11 @@
+https://github.com/HeLiCoPtAr/flatclock/
+
+The English part is a translation, the Japanese part is the official one.
+I waive the copyright on the parts I (HeLiCoPtAr) created and distribute them as public domain. If there is a conflicting license for the portion derived from the reference site, secondary use of that portion will be subject to the license of the reference site.
+I (HeLiCoPtAr) will not be held responsible for any disadvantages that may occur during use.
+
+Japanese part:
+私（HeLiCoPtAr）が作成した部分に対して著作権を放棄し、パブリックドメインとして配布します。なお、参考サイトに由来する部分は、競合するライセンスがある場合、その部分の二次利用は参考サイトのライセンスに準じます。
+私（HeLiCoPtAr）は、利用に際して発生する不利益に対して、責任を負いません。
+
+2023/09/22 不明確なライセンスの明確化 Clarification of unclear licenses
