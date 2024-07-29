@@ -1,19 +1,21 @@
-﻿write('flatclock (powershell版) v20220924
-  2022/09/24 UTF-8(BOM)化、$save_x,$save_yのバグ修正、その他改良
+﻿write('flatclock (powershell版) v20240502
+  2024/05/02 スケーリング対応
   ・MacやLinux上のPowerShellでは動きません。Windowsフォーム使用のため、Windows専用です。
   ・Win7では動きません。Win8は不明
   ・最前面表示ですが、時々前面にならなくなります。また、WMPとWindows標準の「映画＆テレビ」の前面には表示されません。chromeやVLCでは前面に表示されます。
   ・画面保護のために10分置きに、上下左右のランダムな方向に1ピクセル移動します。設定は.ps1ファイルを直接編集すれば変えられます。
-  ・スケーリング対応方法不明のため、4kディスプレイなどのスケールされた環境ではジャギーが目立つことがあります。
 ')
 # 履歴
 # 2021/11/03 新規
 # 2021/11/12 add_paint（paint handler）廃止
+# 2022/09/24 UTF-8(BOM)化、$save_x,$save_yのバグ修正、その他改良
+# 2024/05/02 スケーリング対応
 
 # 参考サイト
   # http://kamifuji.dyndns.org/PS-Support/Form/index.html#_0120
   # https://www.kalium.net/image/2017/07/31/powershell%E3%81%8B%E3%82%89%E3%83%9E%E3%83%AB%E3%83%81%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%81%AE%E8%A7%A3%E5%83%8F%E5%BA%A6%E3%82%92%E5%8F%96%E5%BE%97/
   # https://dobon.net/vb/dotnet/form/startposition.html
+  # https://stackoverflow.com/questions/63907191/powershell-dpi-aware-form
 
 # 設定部分
  $choco = '#431228'; # 暗い部分の色（こげ茶）
@@ -29,6 +31,19 @@
 #Load the GDI+ and WinForms Assemblies
  [void][reflection.assembly]::LoadWithPartialName( "System.Windows.Forms")
  [void][reflection.assembly]::LoadWithPartialName( "System.Drawing")
+
+Add-Type -AssemblyName 'PresentationFramework'
+
+# Dummy WPF window (prevents auto scaling). 20240502 https://stackoverflow.com/questions/63907191/powershell-dpi-aware-form
+ [xml]$Xaml = '
+ <Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Name="Window">
+ </Window>
+ ';
+ $Reader = (New-Object System.Xml.XmlNodeReader $Xaml);
+ $Window = [Windows.Markup.XamlReader]::Load($Reader);
 
 # Create pen and brush objects
  $pen_choco = New-Object Drawing.Pen $choco
